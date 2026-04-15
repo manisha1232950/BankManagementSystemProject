@@ -1,4 +1,4 @@
-package com.payloaddto;
+package com.BankManagementSystemProject.payload;
 
 
 import lombok.Getter;
