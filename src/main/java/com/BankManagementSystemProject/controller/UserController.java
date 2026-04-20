@@ -2,6 +2,7 @@ package com.BankManagementSystemProject.controller;
 
 import com.BankManagementSystemProject.payload.UserDto;
 import com.BankManagementSystemProject.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,15 +10,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/users")
 public class UserController {
 
     @Autowired
     private UserService userService;
 //==================================================================================================
     //1.POST - Create user
-    @PostMapping("/create")
-    public ResponseEntity<UserDto> createUser( @RequestBody UserDto userDto)
+    @PostMapping("/register")
+    public ResponseEntity<UserDto> createUser( @Valid @RequestBody UserDto userDto)
     {
         UserDto createUserDto = this.userService.createUser(userDto);
         return new ResponseEntity<>(createUserDto, HttpStatus.CREATED);
@@ -36,7 +37,7 @@ public class UserController {
 //==================================================================================================
 
     //GET user get for multiple user
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<UserDto>> getAllUsers() {
 
         List<UserDto> users = this.userService.getAllUsers();

@@ -1,5 +1,5 @@
 package com.BankManagementSystemProject.serviceimpl;
-package com.BankManagementSystemProject.serviceimpl;
+
 
 import com.BankManagementSystemProject.entity.User;
 import com.BankManagementSystemProject.exceptionhandling.ResourceNotFoundException;
@@ -7,13 +7,15 @@ import com.BankManagementSystemProject.payload.UserDto;
 import com.BankManagementSystemProject.repository.UserRepository;
 import com.BankManagementSystemProject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+
 import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class USerServiceImpl implements UserService {
+public class UserServiceImpl implements UserService {
 
     //USerServiceImpl par click karo or add umimplement method se sare methods import kar lo .
 
@@ -32,10 +34,10 @@ public class USerServiceImpl implements UserService {
         User user = this.modelMapper.map(userDto, User.class);
 
         // Save to DB
-        User savedUser = this.userRepo.save(user);
+        User addedUser = this.userRepo.save(user);
 
         // Entity → DTO
-        return this.modelMapper.map(savedUser, UserDto.class);
+        return this.modelMapper.map(addedUser, UserDto.class);
     }
 
     //========================================================================================

@@ -7,9 +7,9 @@ public class ResourceNotFoundException extends RuntimeException{
 
     @Getter
     @Setter
-    String resourceName;
-    String fieldName;
-    long fieldValue;
+   private String resourceName;
+   private String fieldName;
+   private long fieldValue;
 
     //constructor using field
     public ResourceNotFoundException(String resourceName, String fieldName, long fieldValue) {

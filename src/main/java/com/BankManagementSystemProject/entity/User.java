@@ -23,13 +23,16 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name="Username", nullable = false, length = 100)
-    private String Username;
+    @Column(name="username")
+    private String username;
 
-    @Column(name="Password")
-    private int Password;
+    @Column(name="password" ,nullable = false)
+    private String password;
 
-    @Column(name="Gmail")
-    private String Gmail;
+    @Column(name="gmail",nullable = false)
+    private String gmail;
+
+   // @OneToMany
+    //private Account account;
 
 }
