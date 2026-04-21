@@ -10,6 +10,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Table(name="users")
 @Getter
@@ -32,7 +34,7 @@ public class User {
     @Column(name="gmail",nullable = false)
     private String gmail;
 
-   // @OneToMany
-    //private Account account;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Account> accounts;   // ✅ CORRECT
 
 }

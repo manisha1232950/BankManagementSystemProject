@@ -1,7 +1,11 @@
 package com.BankManagementSystemProject.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 public class Account {
     @Id
@@ -12,6 +16,7 @@ public class Account {
 
     private String accountType;
 
-   // @ManyToOne
-    //private User user;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }
