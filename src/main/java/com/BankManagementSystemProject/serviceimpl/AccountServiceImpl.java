@@ -6,8 +6,11 @@ import com.BankManagementSystemProject.exceptionhandling.ResourceNotFoundExcepti
 import com.BankManagementSystemProject.payload.AccountDto;
 import com.BankManagementSystemProject.payload.UserDto;
 import com.BankManagementSystemProject.repository.AccountRepository;
+import com.BankManagementSystemProject.repository.UserRepository;
 import com.BankManagementSystemProject.service.AccountService;
+import jakarta.persistence.ManyToOne;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,8 +18,16 @@ import java.util.List;
 @Service
 public class AccountServiceImpl implements AccountService {
 
+    @Autowired
     private AccountRepository accountRepo;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private ModelMapper modelMapper;
+
+    @ManyToOne
 
     //post method -create account
     @Override
@@ -35,18 +46,25 @@ public class AccountServiceImpl implements AccountService {
         return this.modelMapper.map(addedAccount, AccountDto.class);
     }
 //updaate account
-    @Override
-    public AccountDto updateAccount(AccountDto dto, Integer id) {
+@Override
+public AccountDto updateAccount(AccountDto dto, Integer id) {
 
-        Account account = this.accountRepo.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Account", "id", id));
+    Account account = this.accountRepo.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Account", "id", id));
 
-        this.modelMapper.map(dto, account);
+    account.setAccountNumber(dto.getAccountNumber());
+    account.setBalance(dto.getBalance());
+    account.setAccountType(dto.getAccountType());
 
-        Account updatedAccount = this.accountRepo.save(account);
+    User user = this.userRepository.findById(dto.getUserId())
+            .orElseThrow(() -> new ResourceNotFoundException("User", "id", dto.getUserId()));
 
-        return this.modelMapper.map(updatedAccount, AccountDto.class);
-    }
+    account.setUser(user);
+
+    Account updatedAccount = this.accountRepo.save(account);
+
+    return this.modelMapper.map(updatedAccount, AccountDto.class);
+}
 //  getAccountById
     @Override
     public AccountDto getAccountById(Integer id) {

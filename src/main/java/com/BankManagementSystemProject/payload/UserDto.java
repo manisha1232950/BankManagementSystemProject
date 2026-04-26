@@ -19,7 +19,7 @@ public class UserDto {
 
     @NotBlank(message = "Username required")
     @Size(min = 3, max = 20, message = "Username must be 3-20 characters")
-    @Pattern(regexp = "^[a-zA-Z0-9_]+$", message = "Only letters, numbers, underscore allowed")
+    @Pattern(regexp = "^[a-zA-Z0-9_ ]+$", message = "Only letters, numbers, underscore allowed")
     private String username;
 
 
@@ -30,9 +30,9 @@ public class UserDto {
             message = "Password must contain uppercase, lowercase, number, special character")
     private String password;
 
-    @NotBlank(message = "Email required")
+    @NotBlank(message = "Gmail required")
     @Email(message = "Invalid email format")
-    private String email;
+    private String gmail;
 
 
 

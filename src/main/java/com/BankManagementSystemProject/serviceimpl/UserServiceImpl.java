@@ -3,12 +3,15 @@ package com.BankManagementSystemProject.serviceimpl;
 
 import com.BankManagementSystemProject.entity.User;
 import com.BankManagementSystemProject.exceptionhandling.ResourceNotFoundException;
+import com.BankManagementSystemProject.payload.ApiResponse;
 import com.BankManagementSystemProject.payload.UserDto;
 import com.BankManagementSystemProject.repository.UserRepository;
 import com.BankManagementSystemProject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,7 +44,7 @@ public class UserServiceImpl implements UserService {
     }
 
     //========================================================================================
-//updatemethod
+//Put - updatemethod
     @Override
     public UserDto updateUser(UserDto userDto, Integer userId) {
 
@@ -49,14 +52,14 @@ public class UserServiceImpl implements UserService {
         User user = this.userRepo.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
 
-        // DTO → Entity (important part 🔥)
-        this.modelMapper.map(userDto, user);
+        user.setUsername(userDto.getUsername());
+        user.setGmail(userDto.getGmail());
+        user.setPassword(userDto.getPassword());
 
-        // Save updated data
         User updatedUser = this.userRepo.save(user);
 
-        // Entity → DTO
         return this.modelMapper.map(updatedUser, UserDto.class);
+
     }
 
     //========================================================================================

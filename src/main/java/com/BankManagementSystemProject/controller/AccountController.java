@@ -18,7 +18,8 @@ public class AccountController {
     @Autowired
    private AccountService accountService;
 
-    @PostMapping
+    // Create Account
+    @PostMapping("/create")
     public ResponseEntity<AccountDto> createAccount(@Valid @RequestBody AccountDto dto) {
 
         AccountDto createdAccount = this.accountService.createAccount(dto);
@@ -27,7 +28,7 @@ public class AccountController {
     }
 
 //PUT (Update)
-    @PutMapping("/{accountId}")
+    @PutMapping("/accountupdate/{accountId}")
     public ResponseEntity<AccountDto> updateAccount( @Valid
             @RequestBody AccountDto dto,
             @PathVariable Integer accountId) {
@@ -47,7 +48,7 @@ public ResponseEntity<AccountDto> getAccountById(@PathVariable Integer accountId
 }
 
     //GET list
-    @GetMapping
+    @GetMapping("/listaccounts")
     public ResponseEntity<List<AccountDto>> getAllAccounts() {
 
         List<AccountDto> accounts = this.accountService.getAllAccounts();
@@ -56,7 +57,7 @@ public ResponseEntity<AccountDto> getAccountById(@PathVariable Integer accountId
     }
     //delete account
 
-    @DeleteMapping("/{accountId}")
+    @DeleteMapping("/delete/{accountId}")
     public ResponseEntity<String> deleteAccount(@PathVariable Integer accountId) {
 
         this.accountService.deleteAccount(accountId);

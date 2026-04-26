@@ -16,14 +16,17 @@ public class TransationController {
 
     @PostMapping("/deposit/{accountId}")
     public TransactionDto deposit(@PathVariable Integer accountId,
-                                  @RequestParam Double amount) {
+                                  @RequestBody Double amount) {
         return txnService.deposit(accountId, amount);
     }
 
+//========================================================================
+
     @PostMapping("/withdraw/{accountId}")
     public TransactionDto withdraw(@PathVariable Integer accountId,
-                                   @RequestParam Double amount) {
-        return txnService.withdraw(accountId, amount);
+                                   @RequestBody TransactionDto dto) {
+
+        return txnService.deposit(accountId, dto.getAmount());
     }
 
     @PostMapping("/transfer")

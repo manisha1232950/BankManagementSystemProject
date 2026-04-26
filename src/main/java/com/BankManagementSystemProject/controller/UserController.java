@@ -1,5 +1,6 @@
 package com.BankManagementSystemProject.controller;
 
+import com.BankManagementSystemProject.payload.ApiResponse;
 import com.BankManagementSystemProject.payload.UserDto;
 import com.BankManagementSystemProject.service.UserService;
 import jakarta.validation.Valid;
@@ -26,18 +27,26 @@ public class UserController {
     }
 //==================================================================================================
     //2.Put - update user
+@PutMapping("/{userId}")
+public ResponseEntity<ApiResponse> updateUser(
+        @RequestBody UserDto userDto,
+        @PathVariable Integer userId) {
 
-    @PutMapping("/{userId}")
-    ResponseEntity<UserDto> updateUser ( @RequestBody UserDto userDto,
-                                        @PathVariable("userId") Integer userId){
-        UserDto updatedUser = this.userService.updateUser (userDto, userId); //Controller → Service call
-        return ResponseEntity.ok(updatedUser);
+    UserDto updatedUser = this.userService.updateUser(userDto, userId);
 
-    }
+    ApiResponse response = new ApiResponse(
+            "User updated successfully",
+            true,
+            updatedUser
+    );
+
+    return new ResponseEntity<>(response, HttpStatus.OK);
+}
+
 //==================================================================================================
 
     //GET user get for multiple user
-    @GetMapping
+    @GetMapping("/list")
     public ResponseEntity<List<UserDto>> getAllUsers() {
 
         List<UserDto> users = this.userService.getAllUsers();
