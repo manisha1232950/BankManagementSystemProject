@@ -30,26 +30,33 @@ public class TransactionServiceImpl implements TransactionService {
 
     // 🔥 Deposit
     @Override
+    @Transactional
     public TransactionDto deposit(Integer accountId, Double amount) {
 
         if (amount <= 0) {
             throw new RuntimeException("Amount must be greater than 0");
         }
 
+        // ✅ Get account
         Account account = accountRepo.findById(accountId)
-                .orElseThrow(() -> new ResourceNotFoundException("Account", "accountId", accountId));
+                .orElseThrow(() -> new ResourceNotFoundException("Account does not exist"));
 
-        account.setBalance(account.getBalance() + amount);
+        // ✅ Update balance
+        double total = account.getBalance() + amount;
+        account.setBalance(total);
+        accountRepo.save(account);
 
+        // ✅ Create transaction object
         Transaction txn = new Transaction();
         txn.setAmount(amount);
         txn.setType("DEPOSIT");
         txn.setDate(LocalDateTime.now());
         txn.setAccount(account);
 
+        // ✅ Save transaction
         Transaction savedTxn = transactionRepo.save(txn);
-        accountRepo.save(account);
 
+        // ✅ Return DTO
         return modelMapper.map(savedTxn, TransactionDto.class);
     }
 

@@ -17,7 +17,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 //==================================================================================================
-    //1.POST - Create user
+    //1.POST - Create user  //no token
     @PostMapping("/register")
     public ResponseEntity<UserDto> createUser( @Valid @RequestBody UserDto userDto)
     {
@@ -26,7 +26,7 @@ public class UserController {
 
     }
 //==================================================================================================
-    //2.Put - update user
+    //2.Put - update user  //Token required
 @PutMapping("/{userId}")
 public ResponseEntity<ApiResponse> updateUser(
         @RequestBody UserDto userDto,

@@ -11,6 +11,11 @@ public class ResourceNotFoundException extends RuntimeException{
    private String fieldName;
    private Object  fieldValue;
 
+    //  Custom message constructor (NEW)
+    public ResourceNotFoundException(String message) {
+        super(message);
+    }
+
     //constructor using field
     public ResourceNotFoundException(String resourceName, String fieldName, long fieldValue) {
         super(String.format("%s not found with %s : %s",resourceName, fieldName, fieldValue));
