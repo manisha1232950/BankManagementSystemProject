@@ -1,6 +1,7 @@
 
 package com.BankManagementSystemProject.security;
 
+
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired; import
@@ -27,9 +28,20 @@ import org.springframework.beans.factory.annotation.Autowired; import
 
     @Autowired private JwtTokenHelper jwtTokenHelper;
 
-    @Override protected void doFilterInternal(HttpServletRequest request,
+
+    @Override
+    protected void doFilterInternal(HttpServletRequest request,
                                               HttpServletResponse response, FilterChain filterChain) throws
             ServletException, IOException {
+
+
+        String path = request.getServletPath();
+
+// ✅ Skip JWT check for public APIs
+        if (path.equals("/api/auth/login") || path.equals("/users/register")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         // JWT logic here (token extract + validate)
 
@@ -38,16 +50,8 @@ import org.springframework.beans.factory.annotation.Autowired; import
         String requestToken = request.getHeader("Authorization");
 
         // Bearer 2352523sdgsg
-
-        System.out.println(requestToken);
-
-        // 👉 अभी learning ke liye ठीक है 👉 लेकिन real project me remove karo
-
-
         String username = null;
-
         String token = null;
-
 
         if (requestToken != null && requestToken.startsWith("Bearer ")) {
 
@@ -55,10 +59,12 @@ import org.springframework.beans.factory.annotation.Autowired; import
 
             try {
 
-                username = this.jwtTokenHelper.getUsernameFromToken (token); } catch
-            (IllegalArgumentException e) {
+                try {
+                    username = this.jwtTokenHelper.getUsernameFromToken(token);
+                } catch (Exception e) {
+                    System.out.println("JWT Error: " + e.getMessage());
+                }
 
-                System.out.println("Unable to get Jwt token");
 
             } catch (ExpiredJwtException e) {
 
@@ -84,7 +90,7 @@ import org.springframework.beans.factory.annotation.Autowired; import
             UserDetails userDetails =
                     this.userDetailsService.loadUserByUsername(username);
 
-            if (token != null && this.jwtTokenHelper.validateJwtToken(token, userDetails)) {
+            if (token != null && this.jwtTokenHelper.validateToken(token, userDetails)) {
 
                 UsernamePasswordAuthenticationToken authToken = new
                         UsernamePasswordAuthenticationToken(userDetails, null,
@@ -102,4 +108,3 @@ import org.springframework.beans.factory.annotation.Autowired; import
 
 
     } }
-

@@ -30,9 +30,9 @@ public class UserDto {
             message = "Password must contain uppercase, lowercase, number, special character")
     private String password;
 
-    @NotBlank(message = "Gmail required")
+    @NotBlank(message = "Email required")
     @Email(message = "Invalid email format")
-    private String gmail;
+    private String Email;
 
 
 

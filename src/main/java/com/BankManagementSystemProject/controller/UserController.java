@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -16,11 +17,15 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 //==================================================================================================
     //1.POST - Create user  //no token
     @PostMapping("/register")
     public ResponseEntity<UserDto> createUser( @Valid @RequestBody UserDto userDto)
     {
+        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
+
         UserDto createUserDto = this.userService.createUser(userDto);
         return new ResponseEntity<>(createUserDto, HttpStatus.CREATED);
 

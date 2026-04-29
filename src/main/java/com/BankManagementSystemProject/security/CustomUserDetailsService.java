@@ -15,8 +15,7 @@ import org.springframework.stereotype.Service;
 //Ye class DB se user fetch karti hai
 
 @Service
-public class CustomUserDetailService implements UserDetailsService {
-
+public class CustomUserDetailsService implements UserDetailsService  {
 
     @Autowired
 

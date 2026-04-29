@@ -31,8 +31,8 @@ public class User {
     @Column(name="password" ,nullable = false)
     private String password;
 
-    @Column(name="gmail",nullable = false)
-    private String gmail;
+    @Column(name="email",nullable = false)
+    private String email;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Account> accounts;   // ✅ CORRECT

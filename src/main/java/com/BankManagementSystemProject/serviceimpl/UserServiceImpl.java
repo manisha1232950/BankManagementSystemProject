@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,7 +28,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private ModelMapper modelMapper;
-
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     //========================================================================================
     //post method
     @Override
@@ -36,6 +38,8 @@ public class UserServiceImpl implements UserService {
         // DTO → Entity
         User user = this.modelMapper.map(userDto, User.class);
 
+        // 🔥 Encode password HERE
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         // Save to DB
         User addedUser = this.userRepo.save(user);
 
@@ -53,7 +57,7 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
 
         user.setUsername(userDto.getUsername());
-        user.setGmail(userDto.getGmail());
+        user.setEmail(userDto.getEmail());
         user.setPassword(userDto.getPassword());
 
         User updatedUser = this.userRepo.save(user);
