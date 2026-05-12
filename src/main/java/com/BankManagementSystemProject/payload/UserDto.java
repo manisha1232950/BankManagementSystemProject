@@ -24,15 +24,15 @@ public class UserDto {
 
 
     @NotBlank(message = "Password required")
-    @Size(min = 6, message = "Password must be at least 6 characters")
-    @Pattern(
-            regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@#$%^&+=]).*$",
-            message = "Password must contain uppercase, lowercase, number, special character")
+    //@Size(min = 6, message = "Password must be at least 6 characters")
+  //  @Pattern(
+           // regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@#$%^&+=]).*$",
+           // message = "Password must contain uppercase, lowercase, number, special character")
     private String password;
 
     @NotBlank(message = "Email required")
     @Email(message = "Invalid email format")
-    private String Email;
+    private String email;
 
 
 

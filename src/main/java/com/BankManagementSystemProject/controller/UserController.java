@@ -1,12 +1,23 @@
+
 package com.BankManagementSystemProject.controller;
 
+import com.BankManagementSystemProject.entity.JwtRequest;
+import com.BankManagementSystemProject.entity.User;
 import com.BankManagementSystemProject.payload.ApiResponse;
+//import com.BankManagementSystemProject.payload.LoginDto;
 import com.BankManagementSystemProject.payload.UserDto;
+//import com.BankManagementSystemProject.service.AuthService;
+import com.BankManagementSystemProject.repository.UserRepository;
+//import com.BankManagementSystemProject.security.CustomUserDetailsService;
 import com.BankManagementSystemProject.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -19,18 +30,26 @@ public class UserController {
     private UserService userService;
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private UserRepository userRepository;
+
 //==================================================================================================
     //1.POST - Create user  //no token
+    //Step4: take a ps from the user
+
     @PostMapping("/register")
     public ResponseEntity<UserDto> createUser( @Valid @RequestBody UserDto userDto)
     {
-        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
-
         UserDto createUserDto = this.userService.createUser(userDto);
         return new ResponseEntity<>(createUserDto, HttpStatus.CREATED);
 
     }
-//==================================================================================================
+   // =================================================================================================
+
     //2.Put - update user  //Token required
 @PutMapping("/{userId}")
 public ResponseEntity<ApiResponse> updateUser(
@@ -78,8 +97,6 @@ public ResponseEntity<ApiResponse> updateUser(
 
         return ResponseEntity.ok("User deleted successfully");
     }
-
-    //==================================================================================================
 
 }
 

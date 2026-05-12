@@ -10,13 +10,13 @@ import lombok.Setter;
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-     private int accountId;
+     private int acc_id;
      private String accountNumber;
      private Double balance;
 
     private String accountType;
 
-    @ManyToOne
+   @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 }

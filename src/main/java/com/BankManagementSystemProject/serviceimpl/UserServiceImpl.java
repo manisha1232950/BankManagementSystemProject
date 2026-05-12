@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,8 +29,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    //Step3: PE
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    private BCryptPasswordEncoder encoder= new BCryptPasswordEncoder(12);
     //========================================================================================
     //post method
     @Override
@@ -38,8 +43,10 @@ public class UserServiceImpl implements UserService {
         // DTO → Entity
         User user = this.modelMapper.map(userDto, User.class);
 
+        // Step3 PE : Encode Password While Saving User(userServiceImpl)
         // 🔥 Encode password HERE
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         // Save to DB
         User addedUser = this.userRepo.save(user);
 
@@ -57,8 +64,10 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
 
         user.setUsername(userDto.getUsername());
-        user.setEmail(userDto.getEmail());
         user.setPassword(userDto.getPassword());
+        user.setEmail(userDto.getEmail());
+
+     //   user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
         User updatedUser = this.userRepo.save(user);
 

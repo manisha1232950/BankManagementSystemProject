@@ -3,10 +3,11 @@ package com.BankManagementSystemProject.exceptionhandling;
 import lombok.Getter;
 import lombok.Setter;
 
+@Getter
+@Setter
 public class ResourceNotFoundException extends RuntimeException{
 
-    @Getter
-    @Setter
+
    private String resourceName;
    private String fieldName;
    private Object  fieldValue;

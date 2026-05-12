@@ -20,7 +20,6 @@ public class Transaction {
     private String type; // DEPOSIT / WITHDRAW / TRANSFER
 
     private LocalDateTime date;
-
     @ManyToOne
     private Account account;
 }

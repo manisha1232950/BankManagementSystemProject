@@ -59,7 +59,7 @@ public AccountDto updateAccount(AccountDto dto, Integer id) {
     User user = this.userRepository.findById(dto.getUserId())
             .orElseThrow(() -> new ResourceNotFoundException("User", "id", dto.getUserId()));
 
-    account.setUser(user);
+   // account.setUser(user);
 
     Account updatedAccount = this.accountRepo.save(account);
 

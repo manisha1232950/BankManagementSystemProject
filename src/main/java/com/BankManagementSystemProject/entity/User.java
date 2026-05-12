@@ -34,7 +34,7 @@ public class User {
     @Column(name="email",nullable = false)
     private String email;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Account> accounts;   // ✅ CORRECT
 
 }
